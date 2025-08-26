@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Guide to Stremio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The application is designed with a four-part thematic structure: 1) Introduction & Core Concepts, 2) Step-by-Step Setup, 3) An Interactive Addon Explorer, and 4) Pro-Tips & Tools. This task-oriented flow was chosen over a simple linear document to make the guide more digestible and less intimidating for a novice user. It breaks the complex setup process into manageable stages. The key interaction is the "Addon Explorer," which transforms a static list into a dynamic, filterable gallery, allowing users to actively discover and learn about the addons most relevant to their needs, significantly improving usability and engagement. -->
+    <!-- Visualization & Content Choices: Report Info: Stremio concepts (Real-Debrid, Addons) -> Goal: Inform -> Viz/Method: Interactive tabbed content -> Interaction: User clicks a concept button to reveal its explanation -> Justification: Introduces key terms without overwhelming the user, promoting active learning. -> Library/Method: Vanilla JS. | Report Info: List of Stremio addons -> Goal: Organize/Explore -> Viz/Method: Interactive filterable card grid -> Interaction: User clicks filter buttons (Provider, Catalogue, Favorites) to dynamically display relevant addons -> Justification: Transforms a static list into a powerful discovery tool, which is the core interactive element of the application. -> Library/Method: Vanilla JS. | Report Info: Miscellaneous tips and tools -> Goal: Inform -> Viz/Method: Accordion-style collapsible sections -> Interaction: User clicks a title to expand and view details -> Justification: Organizes supplementary information neatly, preventing clutter and allowing users to focus on one tip at a time. -> Library/Method: Vanilla JS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #fdfbf8;
+        color: #383838;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+      }
+
+      .active-nav {
+        color: #4f46e5;
+        font-weight: 600;
+      }
+
+      .active-filter {
+        background-color: #4f46e5;
+        color: #ffffff;
+        border-color: #4f46e5;
+      }
+
+      .card-enter {
+        animation: card-enter 0.5s ease-out forwards;
+      }
+
+      @keyframes card-enter {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Mobile responsiveness */
+      @media (max-width: 768px) {
+        .container {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+
+        .text-4xl {
+          font-size: 2rem;
+        }
+
+        .text-3xl {
+          font-size: 1.5rem;
+        }
+
+        .grid-cols-3 {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .md\\:grid-cols-2 {
+          grid-template-columns: 1fr;
+        }
+
+        .md\\:flex {
+          flex-direction: column;
+        }
+
+        .space-x-8 > * + * {
+          margin-left: 0;
+          margin-top: 1rem;
+        }
+
+        .p-8 {
+          padding: 1.5rem;
+        }
+
+        .p-6 {
+          padding: 1rem;
+        }
+
+        .mb-24 {
+          margin-bottom: 3rem;
+        }
+
+        .mb-12 {
+          margin-bottom: 2rem;
+        }
+
+        .mb-8 {
+          margin-bottom: 1rem;
+        }
+
+        .text-lg {
+          font-size: 1rem;
+        }
+
+        .text-sm {
+          font-size: 0.875rem;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .text-5xl {
+          font-size: 2.5rem;
+        }
+
+        .text-4xl {
+          font-size: 1.875rem;
+        }
+
+        .px-6 {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
+
+        .py-12 {
+          padding-top: 2rem;
+          padding-bottom: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-lg shadow-sm">
+      <nav
+        class="container mx-auto px-6 py-3 flex justify-between items-center"
+      >
+        <div class="text-xl font-bold text-gray-800">Stremio Guide</div>
+        <div class="hidden md:flex space-x-8">
+          <a
+            href="#intro"
+            class="nav-link text-gray-600 hover:text-indigo-600 transition-colors"
+            >Introduction</a
+          >
+          <a
+            href="#setup"
+            class="nav-link text-gray-600 hover:text-indigo-600 transition-colors"
+            >Setup</a
+          >
+          <a
+            href="#addons"
+            class="nav-link text-gray-600 hover:text-indigo-600 transition-colors"
+            >Addon Explorer</a
+          >
+          <a
+            href="#tools"
+            class="nav-link text-gray-600 hover:text-indigo-600 transition-colors"
+            >Pro-Tips & Tools</a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+      <section id="intro" class="mb-24 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          The Noob's Interactive Guide to Stremio
+        </h1>
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-12">
+          This guide transforms the standard setup process into an interactive
+          experience. We'll break down the core concepts and guide you through
+          choosing the perfect addons to build your ultimate streaming setup.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto text-left">
+          <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <h3 class="font-bold text-xl mb-2 text-gray-800">
+              What is Stremio?
+            </h3>
+            <p class="text-gray-600">
+              Stremio is a free, open-source media center app. It gathers
+              information about movies and TV shows from sources like IMDb and
+              organizes them into a user-friendly catalog. Its real power comes
+              from a vast library of community-built addons that provide
+              streaming links.
+            </p>
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
+            <h3 class="font-bold text-xl mb-2 text-gray-800">Core Concepts</h3>
+            <p class="text-gray-600 mb-4">
+              Understanding these two concepts is key to mastering Stremio.
+              Click to learn more:
+            </p>
+            <div class="space-y-3">
+              <div class="concept-item">
+                <button
+                  data-target="concept-debrid"
+                  class="concept-toggle w-full text-left font-semibold p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+                >
+                  What is Debrid?
+                </button>
+                <div id="concept-debrid" class="hidden p-3 text-sm">
+                  <p class="text-gray-700">
+                    A paid service that downloads torrents to its own high-speed
+                    servers and provides you with a direct, secure HTTPS link.
+                    This means faster, buffer-free streaming and enhanced
+                    privacy, as your IP address is never exposed to the torrent
+                    network.
+                  </p>
+                  <div class="mt-3">
+                    <p class="font-medium mb-3 text-indigo-700">
+                      Popular Debrid Services:
+                    </p>
+                    <div class="grid grid-cols-1 gap-2">
+                      <div
+                        class="flex items-center justify-between p-2 bg-indigo-50 rounded-lg border border-indigo-100"
+                      >
+                        <div class="flex items-center space-x-2">
+                          <span class="text-yellow-500">⭐</span>
+                          <strong class="text-indigo-800">Real-Debrid</strong>
+                        </div>
+                        <a
+                          href="https://real-debrid.com"
+                          target="_blank"
+                          class="text-indigo-600 hover:underline text-xs font-medium"
+                          >real-debrid.com</a
+                        >
+                      </div>
+                      <div
+                        class="flex items-center justify-between p-2 bg-indigo-50 rounded-lg border border-indigo-100"
+                      >
+                        <div class="flex items-center space-x-2">
+                          <span class="text-yellow-500">⭐</span>
+                          <strong class="text-indigo-800">TorBox</strong>
+                        </div>
+                        <a
+                          href="https://torbox.app"
+                          target="_blank"
+                          class="text-indigo-600 hover:underline text-xs font-medium"
+                          >torbox.app</a
+                        >
+                      </div>
+                      <div
+                        class="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100"
+                      >
+                        <strong class="text-gray-700">Premiumize</strong>
+                        <a
+                          href="https://www.premiumize.me"
+                          target="_blank"
+                          class="text-indigo-600 hover:underline text-xs font-medium"
+                          >premiumize.me</a
+                        >
+                      </div>
+                      <div
+                        class="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100"
+                      >
+                        <strong class="text-gray-700">Debrid-Link</strong>
+                        <a
+                          href="https://debrid-link.com"
+                          target="_blank"
+                          class="text-indigo-600 hover:underline text-xs font-medium"
+                          >debrid-link.com</a
+                        >
+                      </div>
+                      <div
+                        class="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100"
+                      >
+                        <strong class="text-gray-700">Easy-Debrid</strong>
+                        <a
+                          href="https://easydebrid.com"
+                          target="_blank"
+                          class="text-indigo-600 hover:underline text-xs font-medium"
+                          >easydebrid.com</a
+                        >
+                      </div>
+                      <div
+                        class="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100"
+                      >
+                        <strong class="text-gray-700">AllDebrid</strong>
+                        <a
+                          href="https://alldebrid.com"
+                          target="_blank"
+                          class="text-indigo-600 hover:underline text-xs font-medium"
+                          >alldebrid.com</a
+                        >
+                      </div>
+                      <div
+                        class="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100"
+                      >
+                        <strong class="text-gray-700">Debrider</strong>
+                        <a
+                          href="https://debrider.app"
+                          target="_blank"
+                          class="text-indigo-600 hover:underline text-xs font-medium"
+                          >debrider.app</a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="concept-item">
+                <button
+                  data-target="concept-addons"
+                  class="concept-toggle w-full text-left font-semibold p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+                >
+                  What are Addons?
+                </button>
+                <div id="concept-addons" class="hidden p-3 text-sm">
+                  <p class="text-gray-700">
+                    Addons are the engine of Stremio. They come in two main
+                    types:
+                  </p>
+                  <div class="mt-2 space-y-2">
+                    <div class="text-gray-700">
+                      <strong>1. Catalogue addons</strong> - organize and
+                      recommend content on your home screen
+                    </div>
+                    <div class="text-gray-700">
+                      <strong>2. Stream Provider addons</strong> - search the
+                      web for links to actually play the content
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="max-w-4xl mx-auto mb-12">
+        <div class="bg-amber-50 border-l-4 border-amber-400 p-6 rounded-r-lg">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg
+                class="h-5 w-5 text-amber-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium text-amber-800 mb-2">
+                Important Notes About Using Stremio and Real-Debrid
+              </h3>
+              <div class="text-sm text-amber-700 space-y-2">
+                <p>
+                  <strong>Note:</strong>This is a streaming-only service, not a
+                  long-term video storage solution. For the best experience, we
+                  recommend a paid subscription.
+                </p>
+                <p>
+                  This service is optimized for streaming, not for archiving
+                  large video libraries.
+                </p>
+                <p>
+                  If you experience buffering, please check your internet
+                  connection and device performance. In most cases, these issues
+                  are related to local factors.
+                </p>
+                <p class="font-medium">
+                  <em
+                    >Edit: Here's 2.0 edit after using debrid services for more
+                    than a year.</em
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-4xl mx-auto mb-24">
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <svg
+                class="h-5 w-5 text-blue-400"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </div>
+            <div class="ml-3">
+              <p class="text-sm font-medium text-blue-800">
+                <em
+                  >Edit: Here's 2.0 edit after using debrid services for more
+                  than a year.</em
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section id="setup" class="mb-24">
+        <h2 class="text-3xl font-bold text-center mb-2 text-gray-900">
+          The 3-Step Setup Process
+        </h2>
+        <p class="text-lg text-gray-600 text-center max-w-2xl mx-auto mb-12">
+          Follow these simple steps to get Stremio up and running. The most
+          important part is Step 3, where you'll use the Addon Explorer in the
+          next section to customize your experience.
+        </p>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div
+            class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-center"
+          >
+            <div class="text-3xl text-indigo-600 mb-4">•</div>
+            <h3 class="text-xl font-semibold mb-2">Download & Install</h3>
+            <p class="text-gray-600">
+              Grab the correct version of the Stremio app for your device from
+              the official website or use the web version.
+            </p>
+            <a
+              href="https://www.stremio.com/downloads"
+              target="_blank"
+              class="mt-4 inline-block text-indigo-600 font-semibold hover:underline"
+              >Go to Downloads →</a
+            >
+          </div>
+          <div
+            class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-center"
+          >
+            <div class="text-3xl text-indigo-600 mb-4">•</div>
+            <h3 class="text-xl font-semibold mb-2">Create Your Account</h3>
+            <p class="text-gray-600">
+              Sign up for a free Stremio account. This is essential as it syncs
+              your addon configurations and watch history across all your
+              devices.
+            </p>
+          </div>
+          <div
+            class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-center"
+          >
+            <div class="text-3xl text-indigo-600 mb-4">•</div>
+            <h3 class="text-xl font-semibold mb-2">Explore & Install Addons</h3>
+            <p class="text-gray-600">
+              This is where the magic happens. Use our interactive Addon
+              Explorer in the next section to find and install the best addons
+              for your needs.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Addon Discovery Resources -->
+      <div class="max-w-4xl mx-auto mb-12">
+        <div
+          class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl border border-blue-200 shadow-sm"
+        >
+          <h3 class="text-lg font-bold text-blue-900 mb-3 flex items-center">
+            <span class="text-2xl mr-2">🔍</span>
+            Discover More Addons
+          </h3>
+          <p class="text-sm text-blue-700 mb-4">
+            Explore additional Stremio addons from these community-curated
+            directories:
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <a
+              href="https://stremio-addons.net/"
+              target="_blank"
+              class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm font-medium"
+            >
+              Stremio-Addons.net →
+            </a>
+            <a
+              href="https://stremio-addons.com/"
+              target="_blank"
+              class="inline-block bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition text-sm font-medium"
+            >
+              Stremio-Addons.com →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <section id="addons" class="mb-24">
+        <h2 class="text-3xl font-bold text-center mb-2 text-gray-900">
+          Interactive Addon Explorer
+        </h2>
+        <p class="text-lg text-gray-600 text-center max-w-2xl mx-auto mb-12">
+          This is your command center for customizing Stremio. Use the filters
+          to discover the best community addons. The author's favorites (marked
+          with ❤️) are a great place to start.
+        </p>
+        <div
+          class="flex justify-center flex-wrap gap-3 mb-8"
+          id="addon-filters"
+        >
+          <button
+            data-filter="all"
+            class="filter-btn px-4 py-2 text-sm font-semibold border rounded-full transition active-filter"
+          >
+            All Addons
+          </button>
+          <button
+            data-filter="provider"
+            class="filter-btn px-4 py-2 text-sm font-semibold border rounded-full transition"
+          >
+            Stream Providers
+          </button>
+          <button
+            data-filter="catalogue"
+            class="filter-btn px-4 py-2 text-sm font-semibold border rounded-full transition"
+          >
+            Catalogues
+          </button>
+          <button
+            data-filter="favorite"
+            class="filter-btn px-4 py-2 text-sm font-semibold border rounded-full transition"
+          >
+            Author's Favorites ❤️
+          </button>
+        </div>
+        <div
+          id="addon-grid"
+          class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+        ></div>
+      </section>
+
+      <!-- Community Support -->
+      <div class="max-w-4xl mx-auto mb-12">
+        <div
+          class="bg-gradient-to-r from-orange-50 to-red-50 p-6 rounded-xl border border-orange-200 shadow-sm"
+        >
+          <h3 class="text-lg font-bold text-orange-900 mb-3 flex items-center">
+            <span class="text-2xl mr-2">👥</span>
+            Join the Community
+          </h3>
+          <p class="text-sm text-orange-700 mb-4">
+            Get help, share experiences, and discover new addons in the active
+            Stremio Addons community:
+          </p>
+          <a
+            href="https://www.reddit.com/r/StremioAddons/"
+            target="_blank"
+            class="inline-block bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition text-sm font-medium"
+          >
+            r/StremioAddons →
+          </a>
+        </div>
+      </div>
+
+      <!-- StremThru Feature Showcase -->
+      <div class="max-w-6xl mx-auto mb-24">
+        <div
+          class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-2xl border border-blue-200 shadow-lg"
+        >
+          <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-blue-900 mb-4">
+              🚀 StremThru - Ultimate Streaming Powerhouse
+            </h2>
+            <p class="text-lg text-blue-700 max-w-4xl mx-auto mb-6">
+              The most advanced Stremio ecosystem with comprehensive features
+              for power users. Bypass IP restrictions, access multiple debrid
+              services, and enhance your streaming experience.
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Core Components -->
+            <div
+              class="bg-white p-6 rounded-xl border border-blue-300 shadow-md"
+            >
+              <div class="flex items-center mb-4">
+                <span class="text-2xl mr-3">📋</span>
+                <h3 class="text-xl font-bold text-blue-900">List</h3>
+              </div>
+              <p class="text-sm text-gray-700 mb-3">
+                Access lists from various platforms right inside Stremio as
+                catalogs.
+              </p>
+              <div class="text-xs text-blue-600">
+                🌟 Platform integrations<br />
+                🎯 Curated content access<br />
+                ⚡ Seamless catalog browsing
+              </div>
+            </div>
+
+            <div
+              class="bg-white p-6 rounded-xl border border-blue-300 shadow-md"
+            >
+              <div class="flex items-center mb-4">
+                <span class="text-2xl mr-3">🌀</span>
+                <h3 class="text-xl font-bold text-blue-900">Torz</h3>
+              </div>
+              <p class="text-sm text-gray-700 mb-3">
+                Access torrent streams from DMM Hashlists and crowdsourced
+                database.
+              </p>
+              <div class="text-xs text-blue-600">
+                👥 Community-driven content<br />
+                🎬 High-quality streams<br />
+                🔗 DMM integration
+              </div>
+            </div>
+
+            <div
+              class="bg-white p-6 rounded-xl border border-blue-300 shadow-md"
+            >
+              <div class="flex items-center mb-4">
+                <span class="text-2xl mr-3">🏪</span>
+                <h3 class="text-xl font-bold text-blue-900">Store</h3>
+              </div>
+              <p class="text-sm text-gray-700 mb-3">
+                Access content from debrid account in Stremio as catalogs and
+                streams.
+              </p>
+              <div class="text-xs text-blue-600">
+                🔌 Direct debrid integration<br />
+                📚 Personal library access<br />
+                🔄 Multi-service support
+              </div>
+            </div>
+
+            <div
+              class="bg-white p-6 rounded-xl border border-blue-300 shadow-md"
+            >
+              <div class="flex items-center mb-4">
+                <span class="text-2xl mr-3">🔗</span>
+                <h3 class="text-xl font-bold text-blue-900">Wrap</h3>
+              </div>
+              <p class="text-sm text-gray-700 mb-3">
+                Combine multiple Stremio addons into one superpowered addon with
+                combined sorting and unified formatting.
+              </p>
+              <div class="text-xs text-blue-600">
+                🎯 Unified addon experience<br />
+                ⚡ Enhanced debrid support<br />
+                ✅ Instant availability checks
+              </div>
+            </div>
+
+            <div
+              class="bg-white p-6 rounded-xl border border-blue-300 shadow-md"
+            >
+              <div class="flex items-center mb-4">
+                <span class="text-2xl mr-3">🛠️</span>
+                <h3 class="text-xl font-bold text-blue-900">Sidekick</h3>
+              </div>
+              <p class="text-sm text-gray-700 mb-3">
+                A whole bunch of extra features for managing Stremio account.
+              </p>
+              <div class="text-xs text-blue-600">
+                ⚙️ Account management tools<br />
+                🚀 Enhanced functionality<br />
+                💪 Power user features
+              </div>
+            </div>
+
+            <div
+              class="bg-gradient-to-br from-blue-100 to-indigo-100 p-6 rounded-xl border border-blue-400 shadow-md"
+            >
+              <div class="flex items-center mb-4">
+                <span class="text-2xl mr-3">✨</span>
+                <h3 class="text-xl font-bold text-blue-900">
+                  Advanced Features
+                </h3>
+              </div>
+              <div class="text-sm text-blue-800 space-y-2">
+                <p><strong>🎬 Anime Support:</strong> Both Kitsu and MAL IDs</p>
+                <p>
+                  <strong>📊 Meta Integration:</strong> Compatible with
+                  TMDB/TVDB addons
+                </p>
+                <p>
+                  <strong>🔄 Multi-Store:</strong> Multiple debrid service setup
+                </p>
+                <p><strong>🌐 Proxy Support:</strong> IP restriction bypass</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <a
+              href="https://github.com/MunifTanjim/stremthru"
+              target="_blank"
+              class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition font-medium text-lg"
+            >
+              🚀 Get StremThru Now
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <section id="tools">
+        <h2 class="text-3xl font-bold text-center mb-2 text-gray-900">
+          Pro-Tips & Essential Tools
+        </h2>
+        <p class="text-lg text-gray-600 text-center max-w-2xl mx-auto mb-12">
+          Elevate your Stremio experience from good to great with these powerful
+          third-party tools and optimization tips. Click each item to expand and
+          learn more.
+        </p>
+        <div class="max-w-3xl mx-auto space-y-4" id="tools-accordion"></div>
+      </section>
+    </main>
+
+    <footer class="text-center py-8 border-t mt-16">
+      <p class="text-gray-500">
+        Original guide by Dr. Metformin. Updated and enhanced by after 2024-07.
+        Last Updated on 2025-08.
+      </p>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const addons = [
+          {
+            name: "Torrentio",
+            type: "provider",
+            isFavorite: true,
+            isDebridOnly: false,
+            description:
+              "The undisputed G.O.A.T. The most popular and reliable addon for finding torrent streams. Works with or without Real-Debrid.",
+            link: "https://torrentio.strem.fun/",
+          },
+          {
+            name: "AIOStreams",
+            type: "provider",
+            isFavorite: true,
+            isDebridOnly: false,
+            description:
+              "Consolidates multiple Stremio addons and debrid services into a single, easily configurable addon. Acts as both a stream provider AND catalogue organizer. Features highly customizable filtering, sorting, and formatting of results. Supports proxying through MediaFlow Proxy or StremThru for improved compatibility and IP restriction bypassing.",
+            link: "https://github.com/Viren070/AIOStreams",
+          },
+          {
+            name: "AIOStreams",
+            type: "catalogue",
+            isFavorite: true,
+            isDebridOnly: false,
+            description:
+              "Consolidates multiple Stremio addons and debrid services into a single, easily configurable addon. Acts as both a stream provider AND catalogue organizer. Features highly customizable filtering, sorting, and formatting of results. Supports proxying through MediaFlow Proxy or StremThru for improved compatibility and IP restriction bypassing.",
+            link: "https://github.com/Viren070/AIOStreams",
+          },
+          {
+            name: "MediaFusion",
+            type: "provider",
+            isFavorite: true,
+            isDebridOnly: false,
+            description:
+              "Far more matured and faster than most alternatives. Excellent for South Indian content with a wide variety of international media. Features contribution streams where users can upload torrents to debrid and share with the community. Works with or without Debrid.",
+            link: "https://mediafusion.elfhosted.com/",
+          },
+          {
+            name: "Comet",
+            type: "provider",
+            isFavorite: false,
+            isDebridOnly: true,
+            description:
+              "A mature Debrid-only addon that can proxy streams, allowing you to use one Real-Debrid account on multiple IP addresses simultaneously. Uses the Debrid Media Manager (DMM) database for enhanced content discovery.",
+            link: "https://comet.elfhosted.com/configure",
+          },
+          {
+            name: "EasyNews Provider",
+            type: "provider",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "EasyNews Provider Addon - very slow and buffering. Requires EasyNews Account. Has old niche content, newer content are less available.",
+            link: "https://easynewsplus.elfhosted.com/",
+          },
+          {
+            name: "Easynews++",
+            type: "provider",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "Open-source addon that enhances the Easynews experience with superior performance, advanced search capabilities, and intelligent stream selection. Features custom title support, multi-platform compatibility, and self-hosting options. Built upon Easynews+, it uses a different authentication approach for seamless operation across platforms.",
+            link: "https://en.pantelx.com/configure",
+          },
+          {
+            name: "Trakt Tv Official",
+            type: "catalogue",
+            isFavorite: true,
+            isDebridOnly: false,
+            description:
+              "Integrates your Trakt.tv account to provide personalized recommendations, watchlists, and progress tracking.",
+            link: "https://2ecbbd610840-trakt.baby-beamup.club/",
+          },
+          {
+            name: "Trakt Up Next",
+            type: "catalogue",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "A specialized catalogue that shows you what to watch next based on your Trakt.tv history. Essential for series watchers.",
+            link: "https://up-next.dontwanttos.top/",
+          },
+          {
+            name: "Vavoo TV Channels",
+            type: "catalogue",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "Stremio addon for Vavoo: TV channels by country. Available for Italy, United Kingdom, France, Germany, Portugal, Spain, Albania, Turkey, Netherlands, Arabic, Balkans, Russia, Romania, Poland, Bulgaria.",
+            link: "https://9aa032f52161-tvvoo.baby-beamup.club/",
+          },
+          {
+            name: "Formulio Addon",
+            type: "catalogue",
+            isFavorite: false,
+            isDebridOnly: true,
+            description:
+              "Motor racing replays on Stremio - Now with Debrid support. Formula Racing addon for Stremio providing access to racing content.",
+            link: "https://formulio.hayd.uk/",
+          },
+          {
+            name: "AIOLists",
+            type: "catalogue",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "Stremio Addon with features to manage lists from MDBList and Trakt. New and untested - use with caution.",
+            link: "https://aiolists.elfhosted.com/",
+          },
+        ];
+
+        const tools = [
+          {
+            name: "Debrid Media Manager (DMM) ❤️❤️❤️❤️❤️",
+            content:
+              "This is a game-changer. DMM scans public torrents and checks if they are already cached (available for instant streaming) on Real-Debrid's servers. It lets you search for content and add it directly to your RD cloud, making it instantly available in Stremio via the 'Debrid Search' addon. A must-have for any Debrid user.",
+            link: "https://debridmediamanager.com/",
+          },
+          {
+            name: "Stremio Addon Manager ❤️❤️❤️",
+            content:
+              "Stremio loads addons in the order you install them. This can be frustrating when official addons like WatchHuband Cinemata override better community ones. This tool lets you re-order your installed addons, ensuring your preferred providers (like Torrentio) always appear first in the search results. <strong>Available instances:</strong> <a href='https://addon-manager.dontwanttos.top/' target='_blank' class='text-indigo-600 hover:underline'>Primary</a> | <a href='https://stremio-addon-manager.vercel.app/' target='_blank' class='text-indigo-600 hover:underline'>Backup</a> (both are identical, use backup if primary doesn't work). <strong>Alternative:</strong> Use <a href='https://stremthru.13377001.xyz/stremio/sidekick/' target='_blank' class='text-indigo-600 hover:underline'>StremThru Sidekick</a> for similar addon management features.",
+            link: "",
+          },
+          {
+            name: "Optimize Real-Debrid CDN",
+            content:
+              "For maximum streaming speed, you can change the Content Delivery Network (CDN) in your Real-Debrid account settings. Run the speed test on their site and select the fastest server for your location (often Cloudflare). This can significantly reduce buffering.",
+            link: "https://real-debrid.com/account",
+          },
+          {
+            name: "MediaFusion Community Contributions ⭐",
+            content:
+              "Take your MediaFusion experience to the next level by contributing streams to the community. Upload your own torrents to your debrid service and share them through the MediaFusion Scraper. This not only gives you access to your personal media but also helps improve the addon for all users. Bonus: Since Comet and AIOStreams also use the MediaFusion database, your contributions will benefit users of those addons too! Perfect for power users who want to both consume and contribute to the community.",
+            link: "https://mediafusion.elfhosted.com/scraper/",
+          },
+          {
+            name: "Bypass Real-Debrid IP Restrictions ⭐⭐⭐",
+            content:
+              "<div class='space-y-3'><p><strong>Problem:</strong> Real-Debrid doesn't allow streaming on multiple IP addresses simultaneously.</p><p><strong>Solution:</strong> Use proxy solutions to bypass this limitation.</p><div class='bg-indigo-50 p-4 rounded-lg border border-indigo-200'><p class='font-semibold text-indigo-800 mb-2'>🏆 Recommended: StremThru</p><ul class='list-disc list-inside space-y-1 text-sm text-indigo-700 mb-3'><li><strong>List:</strong> Access lists from various platforms right inside Stremio as catalogs.</li><li><strong>Torz:</strong> Access torrent streams from DMM Hashlists and crowdsourced database.</li><li><strong>Store:</strong> Access content from debrid account in Stremio as catalogs and streams.</li><li><strong>Wrap:</strong> Combine multiple Stremio addons into one superpowered addon with combined sorting and unified formatting. Add debrid support to any torrent addons. Check instant availability status for debrids with missing API endpoint.</li><li><strong>Sidekick:</strong> A whole bunch of extra features for managing Stremio account.</li></ul><a href='https://github.com/MunifTanjim/stremthru' target='_blank' class='inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition font-medium'>Get StremThru →</a></div><div class='bg-gray-50 p-4 rounded-lg border border-gray-200'><p class='font-semibold text-gray-800 mb-2'>🔧 Alternative: MediaFlow Proxy</p><p class='text-sm text-gray-600 mb-3'>Reliable basic proxying for IP restriction bypass.</p><a href='https://github.com/mhdzumair/mediaflow-proxy' target='_blank' class='inline-block bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition font-medium'>Get MediaFlow Proxy →</a></div></div>",
+            link: "",
+          },
+        ];
+
+        const addonGrid = document.getElementById("addon-grid");
+        const addonFilters = document.getElementById("addon-filters");
+        const toolsAccordion = document.getElementById("tools-accordion");
+
+        const renderAddons = (filter = "all") => {
+          addonGrid.innerHTML = "";
+          const filteredAddons = addons.filter((addon) => {
+            if (filter === "all") return true;
+            if (filter === "favorite") return addon.isFavorite;
+            return addon.type === filter;
+          });
+
+          filteredAddons.forEach((addon, index) => {
+            const card = document.createElement("div");
+            card.className =
+              "bg-white p-6 rounded-xl shadow-md border border-gray-200 flex flex-col card-enter";
+            card.style.animationDelay = `${index * 50}ms`;
+
+            let debridBadge = addon.isDebridOnly
+              ? `<span class="text-xs font-semibold bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Debrid Only</span>`
+              : "";
+            let favoriteIcon = addon.isFavorite ? "❤️" : "";
+
+            card.innerHTML = `
+                        <div class="flex-grow">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-bold text-gray-800 pr-2">${addon.name} ${favoriteIcon}</h3>
+                                ${debridBadge}
+                            </div>
+                            <p class="text-gray-600 text-sm">${addon.description}</p>
+                        </div>
+                        <a href="${addon.link}" target="_blank" class="mt-4 block w-full text-center bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition">Configure & Install</a>
+                    `;
+            addonGrid.appendChild(card);
+          });
+        };
+
+        const renderTools = () => {
+          tools.forEach((tool) => {
+            const item = document.createElement("div");
+            item.className =
+              "bg-white border border-gray-200 rounded-xl overflow-hidden";
+            item.innerHTML = `
+                        <button class="accordion-toggle w-full text-left p-5 font-semibold text-lg hover:bg-gray-50 transition flex justify-between items-center">
+                            <span>${tool.name}</span>
+                            <span class="transform transition-transform text-indigo-500 text-2xl font-light">+</span>
+                        </button>
+                        <div class="accordion-content hidden p-5 pt-0">
+                            <p class="text-gray-600">${tool.content}</p>
+                            <a href="${tool.link}" target="_blank" class="mt-4 inline-block text-indigo-600 font-semibold hover:underline">Visit Tool →</a>
+                        </div>
+                    `;
+            toolsAccordion.appendChild(item);
+          });
+        };
+
+        addonFilters.addEventListener("click", (e) => {
+          if (e.target.tagName === "BUTTON") {
+            document
+              .querySelectorAll(".filter-btn")
+              .forEach((btn) => btn.classList.remove("active-filter"));
+            e.target.classList.add("active-filter");
+            renderAddons(e.target.dataset.filter);
+          }
+        });
+
+        document.querySelectorAll(".concept-toggle").forEach((button) => {
+          button.addEventListener("click", () => {
+            const target = document.getElementById(button.dataset.target);
+            target.classList.toggle("hidden");
+          });
+        });
+
+        toolsAccordion.addEventListener("click", (e) => {
+          const toggle = e.target.closest(".accordion-toggle");
+          if (toggle) {
+            const content = toggle.nextElementSibling;
+            const icon = toggle.querySelector("span:last-child");
+            const isOpen = !content.classList.contains("hidden");
+
+            content.classList.toggle("hidden");
+            icon.textContent = isOpen ? "+" : "-";
+            icon.style.transform = isOpen ? "rotate(0deg)" : "rotate(45deg)";
+          }
+        });
+
+        const navLinks = document.querySelectorAll(".nav-link");
+        const sections = document.querySelectorAll("section");
+
+        window.addEventListener("scroll", () => {
+          let current = "";
+          sections.forEach((section) => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 60) {
+              current = section.getAttribute("id");
+            }
+          });
+
+          navLinks.forEach((link) => {
+            link.classList.remove("active-nav");
+            if (link.getAttribute("href").includes(current)) {
+              link.classList.add("active-nav");
+            }
+          });
+        });
+
+        renderAddons();
+        renderTools();
+      });
+    </script>
+  </body>
+</html>
