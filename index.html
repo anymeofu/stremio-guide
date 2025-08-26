@@ -11,29 +11,43 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
-    <!-- Chosen Palette: Warm Neutrals -->
-    <!-- Application Structure Plan: The application is designed with a four-part thematic structure: 1) Introduction & Core Concepts, 2) Step-by-Step Setup, 3) An Interactive Addon Explorer, and 4) Pro-Tips & Tools. This task-oriented flow was chosen over a simple linear document to make the guide more digestible and less intimidating for a novice user. It breaks the complex setup process into manageable stages. The key interaction is the "Addon Explorer," which transforms a static list into a dynamic, filterable gallery, allowing users to actively discover and learn about the addons most relevant to their needs, significantly improving usability and engagement. -->
-    <!-- Visualization & Content Choices: Report Info: Stremio concepts (Real-Debrid, Addons) -> Goal: Inform -> Viz/Method: Interactive tabbed content -> Interaction: User clicks a concept button to reveal its explanation -> Justification: Introduces key terms without overwhelming the user, promoting active learning. -> Library/Method: Vanilla JS. | Report Info: List of Stremio addons -> Goal: Organize/Explore -> Viz/Method: Interactive filterable card grid -> Interaction: User clicks filter buttons (Provider, Catalogue, Favorites) to dynamically display relevant addons -> Justification: Transforms a static list into a powerful discovery tool, which is the core interactive element of the application. -> Library/Method: Vanilla JS. | Report Info: Miscellaneous tips and tools -> Goal: Inform -> Viz/Method: Accordion-style collapsible sections -> Interaction: User clicks a title to expand and view details -> Justification: Organizes supplementary information neatly, preventing clutter and allowing users to focus on one tip at a time. -> Library/Method: Vanilla JS. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
+      :root {
+        --bg-primary: #fdfbf8;
+        --bg-secondary: #ffffff;
+        --bg-tertiary: #f9fafb;
+        --text-primary: #383838;
+        --text-secondary: #6b7280;
+        --text-accent: #4f46e5; /* Consistent Indigo */
+        --border-color: #e5e7eb;
+        --shadow: rgba(0, 0, 0, 0.1);
+        --gradient-start: #f9fafb;
+        --gradient-end: #f3f4f6;
+      }
+
+      * {
+        transition: background-color 0.3s ease, color 0.3s ease,
+          border-color 0.3s ease;
+      }
+
       body {
         font-family: "Inter", sans-serif;
-        background-color: #fdfbf8;
-        color: #383838;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
         margin: 0;
         padding: 0;
         line-height: 1.6;
       }
 
       .active-nav {
-        color: #4f46e5;
+        color: var(--text-accent);
         font-weight: 600;
       }
 
       .active-filter {
-        background-color: #4f46e5;
+        background-color: var(--text-accent);
         color: #ffffff;
-        border-color: #4f46e5;
+        border-color: var(--text-accent);
       }
 
       .card-enter {
@@ -140,27 +154,29 @@
         class="container mx-auto px-6 py-3 flex justify-between items-center"
       >
         <div class="text-xl font-bold text-gray-800">Stremio Guide</div>
-        <div class="hidden md:flex space-x-8">
-          <a
-            href="#intro"
-            class="nav-link text-gray-600 hover:text-indigo-600 transition-colors"
-            >Introduction</a
-          >
-          <a
-            href="#setup"
-            class="nav-link text-gray-600 hover:text-indigo-600 transition-colors"
-            >Setup</a
-          >
-          <a
-            href="#addons"
-            class="nav-link text-gray-600 hover:text-indigo-600 transition-colors"
-            >Addon Explorer</a
-          >
-          <a
-            href="#tools"
-            class="nav-link text-gray-600 hover:text-indigo-600 transition-colors"
-            >Pro-Tips & Tools</a
-          >
+        <div class="flex items-center space-x-4">
+          <div class="hidden md:flex space-x-8">
+            <a
+              href="#intro"
+              class="nav-link text-gray-600 hover:text-indigo-600 transition-colors"
+              >Introduction</a
+            >
+            <a
+              href="#setup"
+              class="nav-link text-gray-600 hover:text-indigo-600 transition-colors"
+              >Setup</a
+            >
+            <a
+              href="#addons"
+              class="nav-link text-gray-600 hover:text-indigo-600 transition-colors"
+              >Addon Explorer</a
+            >
+            <a
+              href="#tools"
+              class="nav-link text-gray-600 hover:text-indigo-600 transition-colors"
+              >Pro-Tips & Tools</a
+            >
+          </div>
         </div>
       </nav>
     </header>
@@ -213,91 +229,128 @@
                   </p>
                   <div class="mt-3">
                     <p class="font-medium mb-3 text-indigo-700">
-                      Popular Debrid Services:
+                      Top Debrid Services:
                     </p>
-                    <div class="grid grid-cols-1 gap-2">
+                    <div class="grid grid-cols-1 gap-3">
                       <div
-                        class="flex items-center justify-between p-2 bg-indigo-50 rounded-lg border border-indigo-100"
+                        class="bg-indigo-50 p-3 rounded-lg border border-indigo-200"
                       >
-                        <div class="flex items-center space-x-2">
-                          <span class="text-yellow-500">⭐</span>
-                          <strong class="text-indigo-800">Real-Debrid</strong>
+                        <div class="flex items-center justify-between mb-2">
+                          <div class="flex items-center space-x-2">
+                            <span class="text-yellow-500">⭐</span>
+                            <strong class="text-indigo-800">Real-Debrid</strong>
+                          </div>
+                          <a
+                            href="https://real-debrid.com"
+                            target="_blank"
+                            class="text-indigo-600 hover:text-indigo-800 text-xs font-medium hover:underline"
+                            >real-debrid.com</a
+                          >
                         </div>
-                        <a
-                          href="https://real-debrid.com"
-                          target="_blank"
-                          class="text-indigo-600 hover:underline text-xs font-medium"
-                          >real-debrid.com</a
-                        >
+                        <p class="text-xs text-indigo-700">
+                          Best for German content, niche content, and widespread
+                          CDN.
+                        </p>
                       </div>
                       <div
-                        class="flex items-center justify-between p-2 bg-indigo-50 rounded-lg border border-indigo-100"
+                        class="bg-indigo-50 p-3 rounded-lg border border-indigo-200"
                       >
-                        <div class="flex items-center space-x-2">
-                          <span class="text-yellow-500">⭐</span>
-                          <strong class="text-indigo-800">TorBox</strong>
+                        <div class="flex items-center justify-between mb-2">
+                          <div class="flex items-center space-x-2">
+                            <span class="text-yellow-500">⭐</span>
+                            <strong class="text-indigo-800">TorBox</strong>
+                          </div>
+                          <a
+                            href="https://torbox.app"
+                            target="_blank"
+                            class="text-indigo-600 hover:text-indigo-800 text-xs font-medium hover:underline"
+                            >torbox.app</a
+                          >
                         </div>
-                        <a
-                          href="https://torbox.app"
-                          target="_blank"
-                          class="text-indigo-600 hover:underline text-xs font-medium"
-                          >torbox.app</a
-                        >
+                        <p class="text-xs text-indigo-700">
+                          Multiple IP support, growing cache, Usenet access in
+                          higher tiers. Fast-growing alternative.
+                        </p>
                       </div>
                       <div
-                        class="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100"
+                        class="bg-gray-50 p-3 rounded-lg border border-gray-200"
                       >
-                        <strong class="text-gray-700">Premiumize</strong>
-                        <a
-                          href="https://www.premiumize.me"
-                          target="_blank"
-                          class="text-indigo-600 hover:underline text-xs font-medium"
-                          >premiumize.me</a
-                        >
+                        <div class="flex items-center justify-between mb-2">
+                          <strong class="text-gray-700">Premiumize</strong>
+                          <a
+                            href="https://www.premiumize.me"
+                            target="_blank"
+                            class="text-indigo-600 hover:text-indigo-800 text-xs font-medium hover:underline"
+                            >premiumize.me</a
+                          >
+                        </div>
+                        <p class="text-xs text-gray-600">
+                          Cloud storage integration, good for personal media.
+                        </p>
                       </div>
                       <div
-                        class="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100"
+                        class="bg-gray-50 p-3 rounded-lg border border-gray-200"
                       >
-                        <strong class="text-gray-700">Debrid-Link</strong>
-                        <a
-                          href="https://debrid-link.com"
-                          target="_blank"
-                          class="text-indigo-600 hover:underline text-xs font-medium"
-                          >debrid-link.com</a
-                        >
+                        <div class="flex items-center justify-between mb-2">
+                          <strong class="text-gray-700">AllDebrid</strong>
+                          <a
+                            href="https://alldebrid.com"
+                            target="_blank"
+                            class="text-indigo-600 hover:text-indigo-800 text-xs font-medium hover:underline"
+                            >alldebrid.com</a
+                          >
+                        </div>
+                        <p class="text-xs text-gray-600">
+                          Budget-friendly option with good basic features.
+                        </p>
                       </div>
                       <div
-                        class="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100"
+                        class="bg-gray-50 p-3 rounded-lg border border-gray-200"
                       >
-                        <strong class="text-gray-700">Easy-Debrid</strong>
-                        <a
-                          href="https://easydebrid.com"
-                          target="_blank"
-                          class="text-indigo-600 hover:underline text-xs font-medium"
-                          >easydebrid.com</a
-                        >
+                        <div class="flex items-center justify-between mb-2">
+                          <strong class="text-gray-700">Debrid-Link</strong>
+                          <a
+                            href="https://debrid-link.com"
+                            target="_blank"
+                            class="text-indigo-600 hover:text-indigo-800 text-xs font-medium hover:underline"
+                            >debrid-link.com</a
+                          >
+                        </div>
+                        <p class="text-xs text-gray-600">
+                          European-focused with good local content.
+                        </p>
                       </div>
                       <div
-                        class="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100"
+                        class="bg-gray-50 p-3 rounded-lg border border-gray-200"
                       >
-                        <strong class="text-gray-700">AllDebrid</strong>
-                        <a
-                          href="https://alldebrid.com"
-                          target="_blank"
-                          class="text-indigo-600 hover:underline text-xs font-medium"
-                          >alldebrid.com</a
-                        >
+                        <div class="flex items-center justify-between mb-2">
+                          <strong class="text-gray-700">Easy-Debrid</strong>
+                          <a
+                            href="https://easydebrid.com"
+                            target="_blank"
+                            class="text-indigo-600 hover:text-indigo-800 text-xs font-medium hover:underline"
+                            >easydebrid.com</a
+                          >
+                        </div>
+                        <p class="text-xs text-gray-600">
+                          Simple interface, good for beginners.
+                        </p>
                       </div>
                       <div
-                        class="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100"
+                        class="bg-gray-50 p-3 rounded-lg border border-gray-200"
                       >
-                        <strong class="text-gray-700">Debrider</strong>
-                        <a
-                          href="https://debrider.app"
-                          target="_blank"
-                          class="text-indigo-600 hover:underline text-xs font-medium"
-                          >debrider.app</a
-                        >
+                        <div class="flex items-center justify-between mb-2">
+                          <strong class="text-gray-700">Debrider</strong>
+                          <a
+                            href="https://debrider.app"
+                            target="_blank"
+                            class="text-indigo-600 hover:text-indigo-800 text-xs font-medium hover:underline"
+                            >debrider.app</a
+                          >
+                        </div>
+                        <p class="text-xs text-gray-600">
+                          Basic features with competitive pricing.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -316,11 +369,11 @@
                     types:
                   </p>
                   <div class="mt-2 space-y-2">
-                    <div class="text-gray-700">
+                    <div>
                       <strong>1. Catalogue addons</strong> - organize and
                       recommend content on your home screen
                     </div>
-                    <div class="text-gray-700">
+                    <div>
                       <strong>2. Stream Provider addons</strong> - search the
                       web for links to actually play the content
                     </div>
@@ -367,12 +420,6 @@
                   connection and device performance. In most cases, these issues
                   are related to local factors.
                 </p>
-                <p class="font-medium">
-                  <em
-                    >Edit: Here's 2.0 edit after using debrid services for more
-                    than a year.</em
-                  >
-                </p>
               </div>
             </div>
           </div>
@@ -380,7 +427,7 @@
       </div>
 
       <div class="max-w-4xl mx-auto mb-24">
-        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
+        <div class="bg-blue-50 border-l-4 border-blue-400 p-6 rounded-r-lg">
           <div class="flex">
             <div class="flex-shrink-0">
               <svg
@@ -407,6 +454,241 @@
         </div>
       </div>
 
+      <div class="max-w-6xl mx-auto mb-24">
+        <div
+          class="bg-gradient-to-br from-indigo-50 to-blue-50 p-8 rounded-2xl border border-indigo-200 shadow-lg"
+        >
+          <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-indigo-900 mb-4">
+              Debrid Service Providers
+            </h2>
+            <p class="text-lg text-indigo-700 max-w-3xl mx-auto">
+              Debrid services unlock premium streaming by downloading torrents
+              to high-speed servers and providing direct links. Here's the
+              current landscape of major debrid providers:
+            </p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <div
+              class="bg-white p-6 rounded-xl border border-indigo-300 shadow-md"
+            >
+              <div class="flex items-center mb-4">
+                <span class="text-2xl mr-3">🏆</span>
+                <h3 class="text-xl font-bold text-indigo-900">Real-Debrid</h3>
+                <span
+                  class="ml-auto bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium"
+                  >Most Popular</span
+                >
+              </div>
+              <ul class="space-y-2 text-sm text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Best for German and niche European content</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Widespread CDN network</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Most mature and stable</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-red-500 mr-2">✗</span>
+                  <span>Poor anime content cache</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-yellow-500 mr-2">⚠</span>
+                  <span>Single IP per account</span>
+                </li>
+              </ul>
+              <a
+                href="https://real-debrid.com"
+                target="_blank"
+                class="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition font-medium"
+                >Visit Real-Debrid →</a
+              >
+            </div>
+
+            <div
+              class="bg-white p-6 rounded-xl border border-indigo-300 shadow-md"
+            >
+              <div class="flex items-center mb-4">
+                <span class="text-2xl mr-3">🚀</span>
+                <h3 class="text-xl font-bold text-indigo-900">TorBox</h3>
+                <span
+                  class="ml-auto bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium"
+                  >Rising Star</span
+                >
+              </div>
+              <ul class="space-y-2 text-sm text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Multiple IP support for same price</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Usenet access in higher tiers</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Growing cache super fast</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Good CDN options</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-red-500 mr-2">✗</span>
+                  <span>Poor anime content support</span>
+                </li>
+              </ul>
+              <a
+                href="https://torbox.app"
+                target="_blank"
+                class="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition font-medium"
+                >Visit TorBox →</a
+              >
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-300">
+              <div class="flex items-center mb-4">
+                <span class="text-2xl mr-3">☁️</span>
+                <h3 class="text-xl font-bold text-gray-900">Premiumize</h3>
+              </div>
+              <ul class="space-y-2 text-sm text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Cloud storage integration</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Good for personal media</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-yellow-500 mr-2">⚠</span>
+                  <span>Higher pricing</span>
+                </li>
+              </ul>
+              <a
+                href="https://www.premiumize.me"
+                target="_blank"
+                class="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition font-medium"
+                >Visit Premiumize →</a
+              >
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-300">
+              <div class="flex items-center mb-4">
+                <span class="text-2xl mr-3">💰</span>
+                <h3 class="text-xl font-bold text-gray-900">AllDebrid</h3>
+              </div>
+              <ul class="space-y-2 text-sm text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Good basic features</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Reliable service</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-red-500 mr-2">✗</span>
+                  <span>Pricey compared to alternatives</span>
+                </li>
+              </ul>
+              <a
+                href="https://alldebrid.com"
+                target="_blank"
+                class="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition font-medium"
+                >Visit AllDebrid →</a
+              >
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-300">
+              <div class="flex items-center mb-4">
+                <span class="text-2xl mr-3">🇪🇺</span>
+                <h3 class="text-xl font-bold text-gray-900">Debrid-Link</h3>
+              </div>
+              <ul class="space-y-2 text-sm text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>European-focused</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Good local content</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-yellow-500 mr-2">⚠</span>
+                  <span>Limited global reach</span>
+                </li>
+              </ul>
+              <a
+                href="https://debrid-link.com"
+                target="_blank"
+                class="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition font-medium"
+                >Visit Debrid-Link →</a
+              >
+            </div>
+
+            <div class="bg-white p-6 rounded-xl border border-gray-300">
+              <div class="flex items-center mb-4">
+                <span class="text-2xl mr-3">🔄</span>
+                <h3 class="text-xl font-bold text-gray-900">Debrider</h3>
+                <span
+                  class="ml-auto bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-medium"
+                  >Formerly EasyDebrid</span
+                >
+              </div>
+              <ul class="space-y-2 text-sm text-gray-700">
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Competitive pricing</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-green-500 mr-2">✓</span>
+                  <span>Basic features</span>
+                </li>
+                <li class="flex items-start">
+                  <span class="text-yellow-500 mr-2">⚠</span>
+                  <span>Limited advanced features</span>
+                </li>
+              </ul>
+              <a
+                href="https://debrider.app"
+                target="_blank"
+                class="mt-4 inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition font-medium"
+                >Visit Debrider →</a
+              >
+            </div>
+          </div>
+
+          <div
+            class="mt-8 p-6 bg-indigo-100 rounded-xl border border-indigo-300"
+          >
+            <h4 class="text-lg font-semibold text-indigo-900 mb-3">
+              💡 Pro Tips for Choosing a Debrid Service:
+            </h4>
+            <div class="grid md:grid-cols-2 gap-4 text-sm text-indigo-800">
+              <ul class="space-y-1">
+                <li>• Start with Real-Debrid for most users</li>
+                <li>• Choose TorBox if you need multiple IPs</li>
+                <li>• Consider Premiumize for cloud storage integration</li>
+                <li>• Look for Usenet access if you download a lot</li>
+              </ul>
+              <ul class="space-y-1">
+                <li>• Check anime content availability</li>
+                <li>• Compare CDN coverage for your region</li>
+                <li>• Consider cache size for instant streaming</li>
+                <li>• All services work great with Stremio addons</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <section id="setup" class="mb-24">
         <h2 class="text-3xl font-bold text-center mb-2 text-gray-900">
           The 3-Step Setup Process
@@ -418,10 +700,12 @@
         </p>
         <div class="grid md:grid-cols-3 gap-8">
           <div
-            class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-center"
+            class="bg-white p-6 rounded-xl shadow-md border border-gray-200 text-center"
           >
             <div class="text-3xl text-indigo-600 mb-4">•</div>
-            <h3 class="text-xl font-semibold mb-2">Download & Install</h3>
+            <h3 class="text-xl font-semibold mb-2 text-gray-900">
+              Download & Install
+            </h3>
             <p class="text-gray-600">
               Grab the correct version of the Stremio app for your device from
               the official website or use the web version.
@@ -434,10 +718,12 @@
             >
           </div>
           <div
-            class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-center"
+            class="bg-white p-6 rounded-xl shadow-md border border-gray-200 text-center"
           >
             <div class="text-3xl text-indigo-600 mb-4">•</div>
-            <h3 class="text-xl font-semibold mb-2">Create Your Account</h3>
+            <h3 class="text-xl font-semibold mb-2 text-gray-900">
+              Create Your Account
+            </h3>
             <p class="text-gray-600">
               Sign up for a free Stremio account. This is essential as it syncs
               your addon configurations and watch history across all your
@@ -445,10 +731,12 @@
             </p>
           </div>
           <div
-            class="bg-white p-8 rounded-xl shadow-lg border border-gray-200 text-center"
+            class="bg-white p-6 rounded-xl shadow-md border border-gray-200 text-center"
           >
             <div class="text-3xl text-indigo-600 mb-4">•</div>
-            <h3 class="text-xl font-semibold mb-2">Explore & Install Addons</h3>
+            <h3 class="text-xl font-semibold mb-2 text-gray-900">
+              Explore & Install Addons
+            </h3>
             <p class="text-gray-600">
               This is where the magic happens. Use our interactive Addon
               Explorer in the next section to find and install the best addons
@@ -458,10 +746,9 @@
         </div>
       </section>
 
-      <!-- Addon Discovery Resources -->
       <div class="max-w-4xl mx-auto mb-12">
         <div
-          class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl border border-blue-200 shadow-sm"
+          class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200 shadow-sm"
         >
           <h3 class="text-lg font-bold text-blue-900 mb-3 flex items-center">
             <span class="text-2xl mr-2">🔍</span>
@@ -475,14 +762,14 @@
             <a
               href="https://stremio-addons.net/"
               target="_blank"
-              class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-sm font-medium"
+              class="inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition text-sm font-medium"
             >
               Stremio-Addons.net →
             </a>
             <a
               href="https://stremio-addons.com/"
               target="_blank"
-              class="inline-block bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition text-sm font-medium"
+              class="inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition text-sm font-medium"
             >
               Stremio-Addons.com →
             </a>
@@ -534,7 +821,6 @@
         ></div>
       </section>
 
-      <!-- Community Support -->
       <div class="max-w-4xl mx-auto mb-12">
         <div
           class="bg-gradient-to-r from-orange-50 to-red-50 p-6 rounded-xl border border-orange-200 shadow-sm"
@@ -550,14 +836,27 @@
           <a
             href="https://www.reddit.com/r/StremioAddons/"
             target="_blank"
-            class="inline-block bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition text-sm font-medium"
+            class="inline-block bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition text-sm font-medium"
           >
             r/StremioAddons →
           </a>
         </div>
       </div>
 
-      <!-- StremThru Feature Showcase -->
+      <section id="tools">
+        <h2 class="text-3xl font-bold text-center mb-2 text-gray-900">
+          Pro-Tips & Essential Tools
+        </h2>
+        <p class="text-lg text-gray-600 text-center max-w-2xl mx-auto mb-12">
+          Elevate your Stremio experience from good to great with these powerful
+          third-party tools and optimization tips. Click each item to expand and
+          learn more.
+        </p>
+        <div class="max-w-3xl mx-auto space-y-4" id="tools-accordion"></div>
+      </section>
+
+      <div class="mb-16"></div>
+
       <div class="max-w-6xl mx-auto mb-24">
         <div
           class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-2xl border border-blue-200 shadow-lg"
@@ -574,7 +873,6 @@
           </div>
 
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            <!-- Core Components -->
             <div
               class="bg-white p-6 rounded-xl border border-blue-300 shadow-md"
             >
@@ -691,7 +989,7 @@
             <a
               href="https://github.com/MunifTanjim/stremthru"
               target="_blank"
-              class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition font-medium text-lg"
+              class="inline-block bg-indigo-600 text-white px-8 py-3 rounded-lg hover:bg-indigo-700 transition font-medium text-lg"
             >
               🚀 Get StremThru Now
             </a>
@@ -699,29 +997,164 @@
         </div>
       </div>
 
-      <section id="tools">
-        <h2 class="text-3xl font-bold text-center mb-2 text-gray-900">
-          Pro-Tips & Essential Tools
-        </h2>
-        <p class="text-lg text-gray-600 text-center max-w-2xl mx-auto mb-12">
-          Elevate your Stremio experience from good to great with these powerful
-          third-party tools and optimization tips. Click each item to expand and
-          learn more.
-        </p>
-        <div class="max-w-3xl mx-auto space-y-4" id="tools-accordion"></div>
-      </section>
+      <div class="max-w-6xl mx-auto mt-24 mb-24">
+        <div
+          class="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl border border-purple-200 shadow-lg"
+        >
+          <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-purple-900 mb-4">
+              🚀 Debridio - Enhanced Media Experience
+            </h2>
+            <p class="text-lg text-purple-700 max-w-3xl mx-auto">
+              A premium service that enhances your Stremio experience with
+              faster results and additional features.
+            </p>
+          </div>
+
+          <div
+            class="bg-white p-8 rounded-xl border border-purple-300 shadow-md mb-6"
+          >
+            <div class="flex items-center mb-6">
+              <span class="text-3xl mr-4">⚡</span>
+              <div>
+                <h3 class="text-2xl font-bold text-purple-900">
+                  What is Debridio?
+                </h3>
+                <p class="text-purple-700 mt-1">
+                  Enhanced media integration service
+                </p>
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+              <div class="space-y-4">
+                <h4 class="text-lg font-semibold text-purple-900 mb-3">
+                  ✅ Key Features:
+                </h4>
+                <ul class="space-y-2 text-sm text-gray-700">
+                  <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>Seamless integration with debrid services</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>Faster media results display</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>TV channel support</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>Own crawler and indexing system</span>
+                  </li>
+                  <li class="flex items-start">
+                    <span class="text-green-500 mr-2">✓</span>
+                    <span>Better access to favorite media</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="space-y-4">
+                <h4 class="text-lg font-semibold text-purple-900 mb-3">
+                  💰 Pricing & Status:
+                </h4>
+                <div
+                  class="bg-purple-50 p-4 rounded-lg border border-purple-200"
+                >
+                  <p class="text-purple-800 font-medium">$10 per year</p>
+                  <p class="text-sm text-purple-600 mt-1">
+                    Community-supported service
+                  </p>
+                </div>
+
+                <div
+                  class="bg-yellow-50 p-4 rounded-lg border border-yellow-200"
+                >
+                  <h5 class="text-yellow-800 font-semibold mb-2">
+                    ⚠️ Important Disclaimers:
+                  </h5>
+                  <ul class="text-xs text-yellow-700 space-y-1">
+                    <li>
+                      • Not a debrid provider - integrates with existing
+                      services
+                    </li>
+                    <li>
+                      • Community instances of MediaFusion/Torrentio are often
+                      slow
+                    </li>
+                    <li>• Untested service - use at your own risk</li>
+                    <li>• Claims of better results are unverified</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+              <h4 class="text-lg font-semibold text-blue-900 mb-3">
+                💡 Why Consider Debridio?
+              </h4>
+              <div class="grid md:grid-cols-2 gap-4 text-sm text-blue-800">
+                <div>
+                  <p class="font-medium mb-2">Community Instances Issues:</p>
+                  <ul class="space-y-1">
+                    <li>• MediaFusion community instances are often slow</li>
+                    <li>• Torrentio community instances have limitations</li>
+                    <li>• Free services can be unreliable</li>
+                  </ul>
+                </div>
+                <div>
+                  <p class="font-medium mb-2">Debridio Advantages:</p>
+                  <ul class="space-y-1">
+                    <li>• Faster results with own infrastructure</li>
+                    <li>• TV channel support</li>
+                    <li>• Premium features for $10/year</li>
+                    <li>• Better indexing and crawling</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-red-50 p-6 rounded-xl border border-red-200">
+            <div class="flex items-start">
+              <span class="text-red-500 text-2xl mr-3">⚠️</span>
+              <div>
+                <h4 class="text-lg font-semibold text-red-900 mb-2">
+                  Important Risk Notice
+                </h4>
+                <p class="text-red-800 text-sm">
+                  Debridio is an untested third-party service. While it may
+                  offer improved performance over free community instances, it
+                  comes with inherent risks. Always research thoroughly and
+                  consider the cost-benefit ratio before subscribing. This is
+                  not an endorsement - use at your own discretion.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center mt-6">
+            <a
+              href="https://debridio.com/"
+              target="_blank"
+              class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition font-medium text-lg"
+            >
+              Visit Debridio Official Site →
+            </a>
+          </div>
+        </div>
+      </div>
     </main>
 
-    <footer class="text-center py-8 border-t mt-16">
-      <p class="text-gray-500">
-        Original guide by Dr. Metformin. Updated and enhanced by after 2024-07.
-        Last Updated on 2025-08.
-      </p>
+    <footer class="text-center py-8 border-t mt-16 border-gray-200">
+      <p class="text-gray-500">Original guide by Dr. Metformin.</p>
     </footer>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const addons = [
+          // Favorites - Top 3 first, then others
           {
             name: "Torrentio",
             type: "provider",
@@ -733,21 +1166,12 @@
           },
           {
             name: "AIOStreams",
-            type: "provider",
+            type: ["provider", "catalogue"],
             isFavorite: true,
             isDebridOnly: false,
             description:
               "Consolidates multiple Stremio addons and debrid services into a single, easily configurable addon. Acts as both a stream provider AND catalogue organizer. Features highly customizable filtering, sorting, and formatting of results. Supports proxying through MediaFlow Proxy or StremThru for improved compatibility and IP restriction bypassing.",
-            link: "https://github.com/Viren070/AIOStreams",
-          },
-          {
-            name: "AIOStreams",
-            type: "catalogue",
-            isFavorite: true,
-            isDebridOnly: false,
-            description:
-              "Consolidates multiple Stremio addons and debrid services into a single, easily configurable addon. Acts as both a stream provider AND catalogue organizer. Features highly customizable filtering, sorting, and formatting of results. Supports proxying through MediaFlow Proxy or StremThru for improved compatibility and IP restriction bypassing.",
-            link: "https://github.com/Viren070/AIOStreams",
+            link: "https://aiostreams.elfhosted.com",
           },
           {
             name: "MediaFusion",
@@ -759,6 +1183,52 @@
             link: "https://mediafusion.elfhosted.com/",
           },
           {
+            name: "TMDB Addon",
+            type: "catalogue",
+            isFavorite: true,
+            isDebridOnly: false,
+            description:
+              "The Movie Database Addon - Explore a vast catalog of movies and TV shows with detailed metadata from TMDB. Features comprehensive movie/TV information, ratings, cast details, and powerful integrations including TMDB Lists, Rating Poster Database, Streaming Catalogs, MDBList, Gemini AI Search, and Trakt.tv sync.",
+            link: "https://94c8cb9f702d-tmdb-addon.baby-beamup.club/",
+          },
+          {
+            name: "StremThru Torz",
+            type: "catalogue",
+            isFavorite: true,
+            isDebridOnly: true,
+            description:
+              "Public instance of StremThru Torz - Access torrent streams from DMM Hashlists and crowdsourced database for perfect media results (highly praised by community). Provides excellent curated content recommendations through community-driven database.",
+            link: "https://stremthru.elfhosted.com/stremio/torz/configure",
+          },
+          {
+            name: "Debrid Search",
+            type: "provider",
+            isFavorite: true,
+            isDebridOnly: true,
+            description:
+              "A unique tool that searches your personal Real-Debrid cloud for content you have already downloaded or streamed.",
+            link: "https://68d69db7dc40-debrid-search.baby-beamup.club/",
+          },
+          {
+            name: "Nuvio Streams",
+            type: "provider",
+            isFavorite: true,
+            isDebridOnly: false,
+            description:
+              "Your gateway to high-quality streaming on Stremio. Instead of torrents, provides HTTP sources links that are way better - worldwide content, faster, and more reliable. Enjoy movies and TV shows from multiple sources.",
+            link: "https://nuviostreams.hayd.uk/",
+          },
+          {
+            name: "Streamify",
+            type: "provider",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "Another HTTP sources addon - provides direct streaming links instead of torrents. Hit and miss reliability, but offers an alternative source for content.",
+            link: "https://stremify.hayd.uk/",
+          },
+          // Non-favorites
+          {
             name: "Comet",
             type: "provider",
             isFavorite: false,
@@ -768,27 +1238,9 @@
             link: "https://comet.elfhosted.com/configure",
           },
           {
-            name: "EasyNews Provider",
-            type: "provider",
-            isFavorite: false,
-            isDebridOnly: false,
-            description:
-              "EasyNews Provider Addon - very slow and buffering. Requires EasyNews Account. Has old niche content, newer content are less available.",
-            link: "https://easynewsplus.elfhosted.com/",
-          },
-          {
-            name: "Easynews++",
-            type: "provider",
-            isFavorite: false,
-            isDebridOnly: false,
-            description:
-              "Open-source addon that enhances the Easynews experience with superior performance, advanced search capabilities, and intelligent stream selection. Features custom title support, multi-platform compatibility, and self-hosting options. Built upon Easynews+, it uses a different authentication approach for seamless operation across platforms.",
-            link: "https://en.pantelx.com/configure",
-          },
-          {
             name: "Trakt Tv Official",
             type: "catalogue",
-            isFavorite: true,
+            isFavorite: false,
             isDebridOnly: false,
             description:
               "Integrates your Trakt.tv account to provide personalized recommendations, watchlists, and progress tracking.",
@@ -802,6 +1254,69 @@
             description:
               "A specialized catalogue that shows you what to watch next based on your Trakt.tv history. Essential for series watchers.",
             link: "https://up-next.dontwanttos.top/",
+          },
+          {
+            name: "IMDB Catalogs",
+            type: "catalogue",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "IMDB Catalogs addon with optional settings to configure Rating Posters from RPDB for enhanced visual experience.",
+            link: "https://1fe84bc728af-imdb-catalogs.baby-beamup.club/configure",
+          },
+          {
+            name: "Streaming Catalogues",
+            type: "catalogue",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "Trending movies and series on Netflix, HBO Max, Disney+, Apple TV+ and more. Configure to choose your favorite services.",
+            link: "https://7a82163c306e-stremio-netflix-catalog-addon.baby-beamup.club/configure",
+          },
+          {
+            name: "Ratings",
+            type: "catalogue",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "Display Scores & Age Ratings at the top of your streams. Supercharge with: More Scores, More Age Ratings, Color-Coded Markers, Overall Rating, Vote Counts & More (with a FREE 7 day trial of Ratings Pro). Please configure before installing.",
+            link: "https://72059fbbd1e5-stremio-addon-ratings.baby-beamup.club/configure/",
+          },
+          {
+            name: "Anime Kitsu",
+            type: "catalogue",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "Unofficial Kitsu.io anime catalog addon - Browse and discover anime content from Kitsu's extensive database.",
+            link: "stremio://anime-kitsu.strem.fun/manifest.json",
+          },
+          {
+            name: "Torrent Catalogs",
+            type: "catalogue",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "Provides catalogs for movies/series/anime based on top seeded torrents. Requires Kitsu addon for anime.",
+            link: "stremio://torrent-catalogs.strem.fun/manifest.json",
+          },
+          {
+            name: "Letterboxd",
+            type: "catalogue",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "Add Letterboxd lists as catalogs! Browse movies from Letterboxd's curated lists and user recommendations.",
+            link: "http://letterboxd.almosteffective.com/configure",
+          },
+          {
+            name: "Ratings Aggregator",
+            type: "catalogue",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "Your all-in-one movie and TV show ratings aggregator for Stremio - consolidates ratings from multiple sources for comprehensive content evaluation.",
+            link: "https://rating-aggregator.elfhosted.com/",
           },
           {
             name: "Vavoo TV Channels",
@@ -820,6 +1335,24 @@
             description:
               "Motor racing replays on Stremio - Now with Debrid support. Formula Racing addon for Stremio providing access to racing content.",
             link: "https://formulio.hayd.uk/",
+          },
+          {
+            name: "EasyNews Provider",
+            type: "provider",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "EasyNews Provider Addon - very slow and buffering. Requires EasyNews Account. Has old niche content, newer content are less available.",
+            link: "https://easynewsplus.elfhosted.com/",
+          },
+          {
+            name: "Easynews++",
+            type: "provider",
+            isFavorite: false,
+            isDebridOnly: false,
+            description:
+              "Open-source addon that enhances the Easynews experience with superior performance, advanced search capabilities, and intelligent stream selection. Features custom title support, multi-platform compatibility, and self-hosting options. Built upon Easynews+, it uses a different authentication approach for seamless operation across platforms.",
+            link: "https://en.pantelx.com/configure",
           },
           {
             name: "AIOLists",
@@ -846,10 +1379,10 @@
             link: "",
           },
           {
-            name: "Optimize Real-Debrid CDN",
+            name: "Optimize Debrid Service CDN",
             content:
-              "For maximum streaming speed, you can change the Content Delivery Network (CDN) in your Real-Debrid account settings. Run the speed test on their site and select the fastest server for your location (often Cloudflare). This can significantly reduce buffering.",
-            link: "https://real-debrid.com/account",
+              "For maximum streaming speed, optimize the Content Delivery Network (CDN) settings in your debrid service account. Run speed tests and select the fastest server for your location (often Cloudflare). This applies to all debrid services (Real-Debrid, TorBox, AllDebrid, etc.) and can significantly reduce buffering.",
+            link: "",
           },
           {
             name: "MediaFusion Community Contributions ⭐",
@@ -874,6 +1407,10 @@
           const filteredAddons = addons.filter((addon) => {
             if (filter === "all") return true;
             if (filter === "favorite") return addon.isFavorite;
+            // Support both single type and array of types/tags
+            if (Array.isArray(addon.type)) {
+              return addon.type.includes(filter);
+            }
             return addon.type === filter;
           });
 
@@ -889,15 +1426,15 @@
             let favoriteIcon = addon.isFavorite ? "❤️" : "";
 
             card.innerHTML = `
-                        <div class="flex-grow">
-                            <div class="flex justify-between items-start mb-2">
-                                <h3 class="text-lg font-bold text-gray-800 pr-2">${addon.name} ${favoriteIcon}</h3>
-                                ${debridBadge}
-                            </div>
-                            <p class="text-gray-600 text-sm">${addon.description}</p>
-                        </div>
-                        <a href="${addon.link}" target="_blank" class="mt-4 block w-full text-center bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition">Configure & Install</a>
-                    `;
+                                  <div class="flex-grow">
+                                      <div class="flex justify-between items-start mb-2">
+                                          <h3 class="text-lg font-bold text-gray-800 pr-2">${addon.name} ${favoriteIcon}</h3>
+                                          ${debridBadge}
+                                      </div>
+                                      <p class="text-gray-600 text-sm">${addon.description}</p>
+                                  </div>
+                                  <a href="${addon.link}" target="_blank" class="mt-4 block w-full text-center bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700 transition">Configure & Install</a>
+                              `;
             addonGrid.appendChild(card);
           });
         };
@@ -908,15 +1445,21 @@
             item.className =
               "bg-white border border-gray-200 rounded-xl overflow-hidden";
             item.innerHTML = `
-                        <button class="accordion-toggle w-full text-left p-5 font-semibold text-lg hover:bg-gray-50 transition flex justify-between items-center">
-                            <span>${tool.name}</span>
-                            <span class="transform transition-transform text-indigo-500 text-2xl font-light">+</span>
-                        </button>
-                        <div class="accordion-content hidden p-5 pt-0">
-                            <p class="text-gray-600">${tool.content}</p>
-                            <a href="${tool.link}" target="_blank" class="mt-4 inline-block text-indigo-600 font-semibold hover:underline">Visit Tool →</a>
-                        </div>
-                    `;
+                                  <button class="accordion-toggle w-full text-left p-5 font-semibold text-lg hover:bg-gray-50 transition flex justify-between items-center text-gray-800">
+                                      <span>${tool.name}</span>
+                                      <span class="transform transition-transform text-indigo-500 text-2xl font-light">+</span>
+                                  </button>
+                                  <div class="accordion-content hidden p-5 pt-0">
+                                      <div class="text-gray-600">${
+                                        tool.content
+                                      }</div>
+                                      ${
+                                        tool.link
+                                          ? `<a href="${tool.link}" target="_blank" class="mt-4 inline-block text-indigo-600 font-semibold hover:underline">Visit Tool →</a>`
+                                          : ""
+                                      }
+                                  </div>
+                              `;
             toolsAccordion.appendChild(item);
           });
         };
@@ -952,13 +1495,13 @@
         });
 
         const navLinks = document.querySelectorAll(".nav-link");
-        const sections = document.querySelectorAll("section");
+        const sections = document.querySelectorAll("main section");
 
         window.addEventListener("scroll", () => {
           let current = "";
           sections.forEach((section) => {
             const sectionTop = section.offsetTop;
-            if (pageYOffset >= sectionTop - 60) {
+            if (pageYOffset >= sectionTop - 100) {
               current = section.getAttribute("id");
             }
           });
